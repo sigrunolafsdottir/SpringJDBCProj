@@ -22,11 +22,13 @@ public class BookController {
         return bookDao.getAllBooks();
     }
 
-
+/*
     @GetMapping("/booksJSON")
     public List<Book> getBooksJSON(){
         return bookDao.getAllBooks();
     }
+
+ */
 
     @GetMapping("/booksHTML")
     public String getBooksHTML(){

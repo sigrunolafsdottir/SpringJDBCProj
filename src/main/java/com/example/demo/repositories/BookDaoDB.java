@@ -4,6 +4,7 @@ package com.example.demo.repositories;
 
 import com.example.demo.models.Book;
 
+import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -12,15 +13,19 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 
 public class BookDaoDB {
 
-    public BookDaoDB ()  {
+    Properties p = new Properties();
+
+    public BookDaoDB ()   {
         try {
+            p.load(new FileInputStream("src/main/resources/application.properties"));
             Class.forName("com.mysql.cj.jdbc.Driver");
         }
-        catch (ClassNotFoundException e){
+        catch (Exception e){
             e.printStackTrace();
         }
     }
@@ -29,8 +34,8 @@ public class BookDaoDB {
     public List<Book> getAllBooks(){
         List<Book> allBooks = new ArrayList<>();
 
-        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/books",
-                "sigrun","secretpassword");
+        try (Connection con = DriverManager.getConnection(p.getProperty("connectionstring"),
+                p.getProperty("spring.datasource.username"),p.getProperty("spring.datasource.password"));
              Statement stmt = con.createStatement();
              ResultSet rs = stmt.executeQuery("select * from book")){
 
@@ -53,8 +58,8 @@ public class BookDaoDB {
         int rowChanged = 0;
         String query = "delete from Book where id = ? ";
 
-        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/books",
-                "sigrun","secretpassword");
+        try (Connection con = DriverManager.getConnection(p.getProperty("connectionstring"),
+                p.getProperty("spring.datasource.username"),p.getProperty("spring.datasource.password"));
              PreparedStatement stmt = con.prepareStatement(query)){
 
             stmt.setInt(1, id);
@@ -74,8 +79,8 @@ public class BookDaoDB {
         String query = "insert into Book (title, author) values (?, ?)";
         int rowChanged = 0;
 
-        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/books",
-                "sigrun","secretpassword");
+        try (Connection con = DriverManager.getConnection(p.getProperty("connectionstring"),
+                p.getProperty("spring.datasource.username"),p.getProperty("spring.datasource.password"));
              PreparedStatement stmt = con.prepareStatement(query)){
 
             stmt.setString(1, b.getTitle());
@@ -97,8 +102,8 @@ public class BookDaoDB {
         String queryInsert = "insert into Book (title, author) values (?, ?)";
         int rowChanged = -1;
 
-        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/books",
-                "sigrun","secretpassword");
+        try (Connection con = DriverManager.getConnection(p.getProperty("connectionstring"),
+                p.getProperty("spring.datasource.username"),p.getProperty("spring.datasource.password"));
              PreparedStatement stmtUpdate = con.prepareStatement(queryUpdate);
              PreparedStatement stmtInsert = con.prepareStatement(queryInsert)){
 
