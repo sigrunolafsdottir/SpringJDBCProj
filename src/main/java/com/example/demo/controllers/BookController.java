@@ -60,14 +60,14 @@ public class BookController {
     }
 
     @PostMapping("/book/add")
-    public Response addBook(Book b){
+    public Response addBook(@RequestBody Book b){
         Response res = new Response("Book added", bookDao.addBook(b));
         return res;
     }
 
 
     @PostMapping("/book/update")
-    public Response upsertBook(Book b){
+    public Response upsertBook(@RequestBody  Book b){
         Response res = new Response("Book updated", bookDao.updateBook(b));
         return res;
     }
