@@ -53,7 +53,7 @@ public class BookController {
     }
 
 
-    @GetMapping("/book/{id}/delete")
+    @DeleteMapping("/book/{id}/delete")
     public Response deleteBookById(@PathVariable("id") int id){
         Response res = new Response("Book deleted", bookDao.deleteBook(id));
         return res;

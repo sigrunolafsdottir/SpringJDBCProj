@@ -23,7 +23,6 @@ public class BookDaoDB {
     public BookDaoDB ()   {
         try {
             p.load(new FileInputStream("src/main/resources/application.properties"));
-            Class.forName("com.mysql.cj.jdbc.Driver");
         }
         catch (Exception e){
             e.printStackTrace();
